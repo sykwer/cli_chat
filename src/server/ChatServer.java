@@ -3,6 +3,8 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import java.net.InetAddress;
+
 public class ChatServer {
 
   private static ChatServer app;
@@ -38,9 +40,9 @@ public class ChatServer {
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     int port = Integer.parseInt(args[0]);
-    System.out.println("My Address: " + InetAddress.getLocalHost().getHostAddress() + ":" + port);
+    System.out.println("My Address: " + InetAddress.getLocalHost().getHostAddress() + ":" + port);
     ChatServer.getApp().start(port);
   }
 }

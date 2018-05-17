@@ -32,7 +32,7 @@ class ChatClient {
             switch (command) {
                 case CHATLOGIN:
                     if (socket != null && socket.isConnected()) {
-
+                        
                     } else {
                         // todo
                         try {
@@ -56,12 +56,12 @@ class ChatClient {
                 case SEND:
                     sender.sendMessage(socket, args[1]);
                     break;
-                    
+
                 case LOGOUT:
                     sender.sendMessage(socket, "logout");
                     close();
                     break;
-                    
+
                 case EXIT:
                     break WHILE;
             }

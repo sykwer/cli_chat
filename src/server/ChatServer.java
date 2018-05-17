@@ -10,7 +10,7 @@ public class ChatServer {
     return app;
   }
 
-  private void ChatServer() {};
+  private ChatServer() {};
 
   public void start() {
 

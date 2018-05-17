@@ -3,14 +3,14 @@ public class ChatServer {
   private static ChatServer app;
 
   public static ChatServer getApp() {
-    if (this.app == null) {
-      this.app = new ChatServer();
-      return this.app;
+    if (app == null) {
+      app = new ChatServer();
+      return app;
     }
-    return this.app;
+    return app;
   }
 
-  private void ChatServer();
+  private void ChatServer() {};
 
   public void start() {
 

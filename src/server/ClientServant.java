@@ -19,8 +19,9 @@ class ClientServant extends Thread {
       InputStream is = this.clientSocket.getInputStream();
       BufferedReader reader = new BufferedReader(new InputStreamReader(is));
 
-      while (!this.clientSocket.isClosed() && reader.readLine() != null) {
-        String[] msg = reader.readLine().split(" ", 2);
+      String line;
+      while (!this.clientSocket.isClosed() && (line = reader.readLine()) != null) {
+        String[] msg = line.split(" ", 2);
         handleCommand(msg[0], msg[1]);
       }
     } catch (IOException e) {

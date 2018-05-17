@@ -10,6 +10,7 @@ class ChatClient {
 
     private Socket socket;
     private ChatSender sender = ChatSender.getSender();
+    private Thread thread;
 
     private enum Command {
         CHATLOGIN,
@@ -36,12 +37,16 @@ class ChatClient {
                         // todo
                         try {
                             connectServer(args[2].split(":")[0], Integer.parseInt(args[2].split(":")[1]));
+                            thread = new Thread(
+                                    // todo: implement
+                            );
+                            thread.start();
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
 
                         try {
-                            sender.sendMessage(socket, args[4]);
+                            sender.sendMessage(socket, String.format("login %s", args[4]));
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -51,10 +56,12 @@ class ChatClient {
                 case SEND:
                     sender.sendMessage(socket, args[1]);
                     break;
+                    
                 case LOGOUT:
                     sender.sendMessage(socket, "logout");
                     close();
                     break;
+                    
                 case EXIT:
                     break WHILE;
             }

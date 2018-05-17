@@ -32,7 +32,7 @@ class ChatClient {
             switch (command) {
                 case CHATLOGIN:
                     if (socket != null && socket.isConnected()) {
-                        
+                        System.out.println("すでにログインしています。");
                     } else {
                         // todo
                         try {

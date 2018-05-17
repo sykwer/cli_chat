@@ -5,7 +5,7 @@ import java.util.Scanner;
 class ChatClient {
     public static void main(String[] args) {
         ChatClient client = new ChatClient();
-        client.waitForCommands(args);
+        client.waitForCommands();
     }
 
     private Socket socket;
@@ -21,24 +21,28 @@ class ChatClient {
     private ChatClient() {
     }
 
-    private void waitForCommands(String[] args) {
+    private void waitForCommands() {
         Scanner scanner = new Scanner(System.in);
-        // todo
-        try {
-            connectServer(Integer.parseInt(args[0]));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        while (true) {
+            String[] args = scanner.nextLine().trim().split("\\s");
 
-        try {
-            sender.sendMessage(socket, args[1]);
-        } catch (IOException e) {
-            e.printStackTrace();
+            // todo
+            try {
+                connectServer(args[2].split(":")[0], Integer.parseInt(args[2].split(":")[1]));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            try {
+                sender.sendMessage(socket, args[4]);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
-    private void connectServer(int port) throws IOException {
-        socket = new Socket("localhost", port);
+    private void connectServer(String host, int port) throws IOException {
+        socket = new Socket(host, port);
     }
 
     private void close() {

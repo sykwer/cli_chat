@@ -10,7 +10,7 @@ import java.io.PrintWriter;
 class ClientServant extends Thread {
 
   private Socket clientSocket;
-  private Boolean login;
+  private Boolean isLoggedIn;
   private String username;
   private ChatServer server = ChatServer.getApp();
 
@@ -18,7 +18,7 @@ class ClientServant extends Thread {
     this.clientSocket = socket;
   }
 
-  public void start() {
+  public void run() {
     try {
       InputStream is = this.clientSocket.getInputStream();
       BufferedReader reader = new BufferedReader(new InputStreamReader(is));
@@ -34,17 +34,15 @@ class ClientServant extends Thread {
   }
 
   private void handleCommand(String cmd, String value) {
-    //System.out.println("cmd : "+cmd);
-    //System.out.println("value : "+value);
     switch (cmd) {
       case "login":
-
+        login(value);
         break;
       case "logout":
-
+        logout();
         break;
       case "send":
-
+        broadcastMsg(value);
         break;
       default:
 
@@ -52,15 +50,20 @@ class ClientServant extends Thread {
   }
 
   private void login(String username) {
-
+    sendStringToAllMembers(username + " has entered this chat room.");
+    isLoggedIn = true;
+    this.username = username;
   }
 
   private void logout() {
-
+    sendStringToAllMembers(username + " left.")
+    server.removeClient(this);
+    clientSocket.close();
+    
   }
 
-  private void broadcastMsg(String username, String msg) {
-
+  private void broadcastMsg(String msg) {
+    sendStringToAllMembers(username + " : " + msg);
   }
 
   private void sendStringToAllMembers(String str) {

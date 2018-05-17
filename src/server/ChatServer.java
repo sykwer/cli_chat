@@ -55,4 +55,8 @@ public class ChatServer {
 
     return sockets;
   }
+
+  public void removeClient(ClientServant cs) {
+    clientServants.remove(cs);
+  }
 }

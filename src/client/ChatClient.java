@@ -1,8 +1,15 @@
+import java.io.IOException;
+import java.net.Socket;
+import java.util.Scanner;
+
 class ChatClient {
     public static void main(String[] args) {
         ChatClient client = new ChatClient();
-        client.waitForCommands();
+        client.waitForCommands(args);
     }
+
+    private Socket socket;
+    private ChatSender sender = ChatSender.getSender();
     
     private enum Command {
         CHATLOGIN,
@@ -14,10 +21,14 @@ class ChatClient {
     private ChatClient() {
     }
 
-    private void waitForCommands() {
+    private void waitForCommands(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        connectServer(Integer.parseInt(args[0]));
+        sender.sendMessage(socket, args[1]);
     }
 
-    private void connectServer() {
+    private void connectServer(int port) throws IOException {
+        socket = new Socket("localhost", port);
     }
 
     private void close() {

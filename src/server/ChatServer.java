@@ -19,7 +19,7 @@ public class ChatServer {
 
 
   private ServerSocket serverSocket;
-  private ArrayList<ClientServant> clientServants;
+  private ArrayList<ClientServant> clientServants = new ArrayList<ClientServant>();
 
   private ChatServer() {};
 

@@ -12,16 +12,17 @@ class ChatSender {
 		return singleton;
 	}
 
-	void sendMessage(Socket socket, String message)  {
-		PrintWriter writer;
+	void sendMessage(Socket socket, String message) {
+		PrintWriter writer = null;
 		try {
 			writer = new PrintWriter(socket.getOutputStream());
 			writer.println(message);
-			writer.close();
 		} catch (IOException e) {
 			System.out.println("送信できませんでした。");
-
+		} finally {
+			if (writer != null) {
+				writer.close();
+			}
 		}
-
 	}
 }

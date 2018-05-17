@@ -45,11 +45,7 @@ class ChatClient {
                             e.printStackTrace();
                         }
 
-                        try {
-                            sender.sendMessage(socket, String.format("login %s", args[4]));
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        sender.sendMessage(socket, String.format("login %s", args[4]));
                     }
                     break;
 

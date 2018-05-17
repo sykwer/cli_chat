@@ -45,4 +45,14 @@ public class ChatServer {
     System.out.println("My Address: " + InetAddress.getLocalHost().getHostAddress() + ":" + port);
     ChatServer.getApp().start(port);
   }
+
+  public ArrayList<Socket> getAllSockets() {
+    ArrayList<Socket> sockets = new ArrayList<Socket>();
+
+    for (ClientServant cs: clientServants) {
+      sockets.add(cs.getSocket());
+    }
+
+    return sockets;
+  }
 }

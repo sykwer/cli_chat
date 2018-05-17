@@ -10,7 +10,7 @@ class ChatClient {
 
     private Socket socket;
     private ChatSender sender = ChatSender.getSender();
-    
+
     private enum Command {
         CHATLOGIN,
         SEND,
@@ -23,8 +23,18 @@ class ChatClient {
 
     private void waitForCommands(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        connectServer(Integer.parseInt(args[0]));
-        sender.sendMessage(socket, args[1]);
+        // todo
+        try {
+            connectServer(Integer.parseInt(args[0]));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            sender.sendMessage(socket, args[1]);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void connectServer(int port) throws IOException {

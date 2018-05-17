@@ -10,4 +10,7 @@ class ClientServant extends Thread {
     this.clientSocket = socket;
   }
 
+  public void start() {
+
+  }
 }

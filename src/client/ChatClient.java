@@ -59,6 +59,7 @@ class ChatClient {
 
                 default:
                     System.out.println("そのコマンドはありません。");
+                    System.out.println("'chatlogin','list','send','logout','exit' コマンドが使えます。");
                     break;
             }
 

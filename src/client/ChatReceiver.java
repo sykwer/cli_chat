@@ -23,7 +23,7 @@ class ChatReceiver {
                 }
             }
         } catch (IOException e) {
-            System.out.println("\u001b[31m"+"メッセージの受け取りに失敗しました。");
+            System.out.println("\u001b[31m"+"メッセージの受け取りに失敗しました。"+"\u001b[30m");
             e.printStackTrace();
         }
     }

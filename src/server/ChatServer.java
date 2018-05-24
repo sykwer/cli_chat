@@ -19,7 +19,7 @@ public class ChatServer {
 
 
   private ServerSocket serverSocket;
-  public ArrayList<ClientServant> clientServants = new ArrayList<ClientServant>();
+  private ArrayList<ClientServant> clientServants = new ArrayList<ClientServant>();
 
   private ChatServer() {};
 
@@ -48,5 +48,9 @@ public class ChatServer {
 
   public void removeClient(ClientServant cs) {
     clientServants.remove(cs);
+  }
+
+  public ArrayList<ClientServant> getClientServants() {
+    return clientServants;
   }
 }

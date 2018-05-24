@@ -72,7 +72,7 @@ class ClientServant extends Thread {
   private void sendStringToAllClients(String str) {
     ArrayList<ClientServant> clients  = server.clientServants;
     for (ClientServant client: clients) {
-      sendString(str);
+      client.sendString(str);
     }
   }
 

@@ -50,32 +50,35 @@ class ClientServant extends Thread {
   }
 
   private void login(String username) {
-    sendStringToAllMembers(username + " has entered this chat room.");
+    sendStringToAllClients(username + " has entered this chat room.");
     isLoggedIn = true;
     this.username = username;
   }
 
   private void logout() {
-    sendStringToAllMembers(username + " left.")
-    server.removeClient(this);
-    clientSocket.close();
-    
-  }
-
-  private void broadcastMsg(String msg) {
-    sendStringToAllMembers(username + " : " + msg);
-  }
-
-  private void sendStringToAllMembers(String str) {
-    ArrayList<Socket> sockets = server.getAllSockets();
-    for (Socket s: sockets) {
-      sendString(s, str);
+    try {
+      sendStringToAllClients(username + " left.");
+      server.removeClient(this);
+      clientSocket.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
   }
 
-  private void sendString(Socket socket, String str) {
+  private void broadcastMsg(String msg) {
+    sendStringToAllClients(username + " : " + msg);
+  }
+
+  private void sendStringToAllClients(String str) {
+    ArrayList<ClientServant> clients  = server.clientServants;
+    for (ClientServant client: clients) {
+      sendString(str);
+    }
+  }
+
+  private void sendString(String str) {
     try {
-      OutputStream os = socket.getOutputStream();
+      OutputStream os = clientSocket.getOutputStream();
       PrintWriter writer = new PrintWriter(os);
       writer.println(str);
       writer.close();

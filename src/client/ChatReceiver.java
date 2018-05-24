@@ -19,11 +19,11 @@ class ChatReceiver {
             while(!socket.isClosed()){
                 String line = bufferedReader.readLine();
                 if(line != null){
-                    System.out.println(line);
+                    System.out.println("\u001b[34m"+line);
                 }
             }
         } catch (IOException e) {
-            System.out.println("メッセージの受け取りに失敗しました。");
+            System.out.println("\u001b[31m"+"メッセージの受け取りに失敗しました。");
             e.printStackTrace();
         }
     }

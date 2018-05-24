@@ -18,7 +18,7 @@ class ChatSender {
 			writer = new PrintWriter(socket.getOutputStream());
 			writer.println(message);
 		} catch (IOException e) {
-			System.out.println("通信エラーです。メッセージの送信に失敗しました。");
+			System.out.println("\u001b[31m"+"メッセージの送信に失敗しました。");
 			e.printStackTrace();
 		} finally {
 			if (writer != null) {

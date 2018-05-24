@@ -41,6 +41,10 @@ class ChatClient {
                     }
                     break;
 
+                case LIST:
+                	    sender.sendMessage(socket, "list");
+                	    break;
+
                 case SEND:
                     sendChat(args[1]);
                     break;
@@ -53,9 +57,6 @@ class ChatClient {
                 case EXIT:
                     break WHILE;
 
-                case LIST:
-                		sender.sendMessage(socket, "list");
-                		break;
             }
 
         }

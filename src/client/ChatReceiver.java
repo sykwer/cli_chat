@@ -19,7 +19,7 @@ class ChatReceiver {
             while(!socket.isClosed()){
                 String line = bufferedReader.readLine();
                 if(line != null){
-                    System.out.println("\u001b[34m"+line+"\u001b[0m");
+                    System.out.println("\u001b[34m"+line+"\u001b[30m");
                 }
             }
         } catch (IOException e) {

@@ -34,27 +34,16 @@ class ChatClient {
                     if (socket != null && socket.isConnected()) {
                         System.out.println("すでにログインしています。");
                     } else {
-                        // todo
-                        try {
-                            connectServer(args[2].split(":")[0], Integer.parseInt(args[2].split(":")[1]));
-                            thread = new Thread(
-                                    // todo: implement
-                            );
-                            thread.start();
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-
-                        sender.sendMessage(socket, String.format("login %s", args[4]));
+                        login(args[2].split(":")[0], Integer.parseInt(args[2].split(":")[1]), args[4]);
                     }
                     break;
 
                 case SEND:
-                    sender.sendMessage(socket, args[1]);
+                    sendChat(args[1]);
                     break;
 
                 case LOGOUT:
-                    sender.sendMessage(socket, "logout");
+                    logout();
                     close();
                     break;
 
@@ -65,8 +54,30 @@ class ChatClient {
         }
     }
 
+    private void sendChat(String message) {
+        sender.sendMessage(socket, message);
+    }
+
+    private void login(String host, int port, String userName) {
+        try {
+            connectServer(host, port);
+            thread = new Thread(
+                    // todo: implement
+            );
+            thread.start();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        sender.sendMessage(socket, String.format("login %s", userName));
+    }
+
     private void connectServer(String host, int port) throws IOException {
         socket = new Socket(host, port);
+    }
+
+    private void logout() {
+        sender.sendMessage(socket, "logout");
     }
 
     private void close() {

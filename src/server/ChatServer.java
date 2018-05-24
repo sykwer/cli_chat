@@ -19,7 +19,7 @@ public class ChatServer {
 
 
   private ServerSocket serverSocket;
-  private ArrayList<ClientServant> clientServants = new ArrayList<ClientServant>();
+  public ArrayList<ClientServant> clientServants = new ArrayList<ClientServant>();
 
   private ChatServer() {};
 
@@ -44,5 +44,9 @@ public class ChatServer {
     int port = Integer.parseInt(args[0]);
     System.out.println("My Address: " + InetAddress.getLocalHost().getHostAddress() + ":" + port);
     ChatServer.getApp().start(port);
+  }
+
+  public void removeClient(ClientServant cs) {
+    clientServants.remove(cs);
   }
 }

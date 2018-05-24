@@ -16,9 +16,12 @@ class ChatReceiver {
         InputStream input = socket.getInputStream();
         InputStreamReader inputStreamReader = new InputStreamReader(input);
         BufferedReader  bufferedReader = new BufferedReader(inputStreamReader);
-        String line = bufferedReader.readLine();
-        System.out.println(line);
+        while(!socket.isClosed()){
+            String line = bufferedReader.readLine();
+            System.out.println(line);
+        }
         
+
 
         /*
         * やりたいこと

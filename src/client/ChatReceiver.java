@@ -11,7 +11,6 @@ class ChatReceiver {
         return singleton;
     }
 
-    // TODO: 2018/05/13 実装
     void waiteForMessage(Socket socket) {
         try {
             InputStream input = socket.getInputStream();
@@ -24,6 +23,7 @@ class ChatReceiver {
                 }
             }
         } catch (IOException e) {
+            System.out.println("メッセージの受け取りに失敗しました。");
             e.printStackTrace();
         }
     }

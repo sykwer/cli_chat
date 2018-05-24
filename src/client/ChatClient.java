@@ -28,7 +28,7 @@ class ChatClient {
         WHILE:
         while (true) {
             String[] args = scanner.nextLine().trim().split("\\s");
-            Command command = Command.valueOf(args[0]);
+            Command command = Command.valueOf(args[0].toUpperCase());
             switch (command) {
                 case CHATLOGIN:
                     if (socket != null && socket.isConnected()) {
@@ -55,7 +55,7 @@ class ChatClient {
     }
 
     private void sendChat(String message) {
-        sender.sendMessage(socket, message);
+        sender.sendMessage(socket, String.format("send %s", message));
     }
 
     private void login(String host, int port, String userName) {

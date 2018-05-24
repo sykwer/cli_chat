@@ -57,6 +57,9 @@ class ChatClient {
                 case EXIT:
                     break WHILE;
 
+                default:
+                    System.out.println("そのコマンドはありません。");
+                    break;
             }
 
         }

@@ -25,24 +25,27 @@ class ClientServant extends Thread {
 
       String line;
       while (!this.clientSocket.isClosed() && (line = reader.readLine()) != null) {
-        String[] msg = line.split(" ", 2);
-        handleCommand(msg[0], msg[1]);
+        String[] cmd = line.split(" ", 2);
+        handleCommand(cmd);
       }
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
-  private void handleCommand(String cmd, String value) {
-    switch (cmd) {
+  private void handleCommand(String[] cmd) {
+    switch (cmd[0]) {
       case "login":
-        login(value);
+        login(cmd[1]);
         break;
       case "logout":
         logout();
         break;
       case "send":
-        broadcastMsg(value);
+        broadcastMsg(cmd[1]);
+        break;
+      case "list":
+        listClients();
         break;
       default:
 
@@ -50,14 +53,14 @@ class ClientServant extends Thread {
   }
 
   private void login(String username) {
-    sendStringToAllClients(username + " has entered this chat room.");
+    sendStringToAllClients(String.format("%s has entered this chat room.", username));
     isLoggedIn = true;
     this.username = username;
   }
 
   private void logout() {
     try {
-      sendStringToAllClients(username + " left.");
+      sendStringToAllClients(String.format("%s left.", username));
       server.removeClient(this);
       clientSocket.close();
     } catch (IOException e) {
@@ -66,11 +69,18 @@ class ClientServant extends Thread {
   }
 
   private void broadcastMsg(String msg) {
-    sendStringToAllClients(username + " : " + msg);
+    sendStringToAllClients(String.format("%s: %s", username, msg));
+  }
+  private void listClients() {
+    this.sendString("List of clients:");
+    ArrayList<ClientServant> clients  = server.getClientServants();
+    for (ClientServant client: clients) {
+      client.sendString(String.format("\t%s", client.getUsername()));
+    }
   }
 
   private void sendStringToAllClients(String str) {
-    ArrayList<ClientServant> clients  = server.clientServants;
+    ArrayList<ClientServant> clients  = server.getClientServants();
     for (ClientServant client: clients) {
       client.sendString(str);
     }
@@ -89,6 +99,10 @@ class ClientServant extends Thread {
 
   public Socket getSocket() {
     return clientSocket;
+  }
+
+  public String getUsername() {
+    return username;
   }
 
 }

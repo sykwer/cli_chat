@@ -25,7 +25,7 @@ class ClientServant extends Thread {
 
             String line;
             while (!this.clientSocket.isClosed() && (line = reader.readLine()) != null) {
-                String[] cmd = line.split(" ", 2);
+                String[] cmd = line.split(" ");
                 handleCommand(cmd);
             }
         } catch (IOException e) {
@@ -42,7 +42,28 @@ class ClientServant extends Thread {
                 logout();
                 break;
             case "send":
-                broadcastMsg(cmd[1]);
+                String msg = cmd[cmd.length - 1];
+                Integer repeatsNum = null;
+                String destUsername = null;
+
+                for (int i = 1; i < cmd.length; i++) {
+                    if (cmd[i] == "-repeat") {
+                        repeatsNum = Integer.parseInt(cmd[i+1]);
+                    }
+
+                    if (cmd[i] == "-to") {
+                        destUsername = cmd[i+1];
+                    }
+                }
+
+                if (repeatsNum != null) {
+                    broadcastRepeatedMsg(msg, repeatsNum);
+                } else if (destUsername != null) {
+                    directMsg(msg, destUsername);
+                } else {
+                    broadcastMsg(msg);
+                }
+
                 break;
             case "list":
                 listClients();
@@ -70,6 +91,32 @@ class ClientServant extends Thread {
 
     private void broadcastMsg(String msg) {
         sendStringToAllClients(String.format("%s: %s", username, msg));
+    }
+
+    private void broadcastRepeatedMsg(String msg, int times) {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < times; i++) {
+            sb.append(msg + "\n");
+        }
+
+        sendStringToAllClients(sb.toString());
+    }
+
+    private void directMsg(String msg, String username) {
+        ClientServant dest = null;
+
+        for (ClientServant cs : server.getClientServants()) {
+            if (cs.getUsername() == username) {
+                dest = cs;
+            }
+        }
+
+        if (dest == null) {
+            sendString(username + "is not logged in");
+        }
+
+        dest.sendString(String.format("(DM)%s -> %s: %s", getUsername(), dest.getUsername(), msg));
     }
 
     private void listClients() {

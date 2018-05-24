@@ -19,7 +19,8 @@ class ChatClient {
         SEND,
         LOGOUT,
         HELP,
-        EXIT
+        EXIT,
+        FIRE
     }
 
     private ChatClient() {
@@ -30,15 +31,17 @@ class ChatClient {
 
         WHILE:
         while (true) {
-            String[] args = scanner.nextLine().trim().split("\\s");
+            String[] args = scanner.nextLine().trim().split("\\s", 2);
             Command command = Command.valueOf(args[0].toUpperCase());
             switch (command) {
                 case LOGIN:
                     if (socket != null && socket.isConnected()) {
                         System.out.println("すでにログインしています。");
                     } else {
-                        String[] destination = args[1].split(":", 2);
-                        login(destination[0], Integer.parseInt(destination[1]), args[2]);
+                        // nextLine example: "login 10.213.19.210:1111 Ken"
+                        String[] s = args[1].split("\\s", 2);
+                        String[] destination = s[0].split(":", 2);
+                        login(destination[0], Integer.parseInt(destination[1]), s[1]);
                     }
                     break;
 
@@ -49,10 +52,9 @@ class ChatClient {
                 case SEND:
                     sendChat(args[1]);
                     break;
-
+                    
                 case LOGOUT:
                     logout();
-                    close();
                     break;
 
                 case HELP:
@@ -60,7 +62,14 @@ class ChatClient {
             	        break;
 
                 case EXIT:
+                    if (!socket.isClosed()) {
+                        logout();
+                    }
                     break WHILE;
+
+                case FIRE:
+               	    sender.sendMessage(socket, "fire");
+            	        break;
 
                 default:
                     System.out.println("そのコマンドはありません。(→'help')");
@@ -95,16 +104,8 @@ class ChatClient {
         sender.sendMessage(socket, "logout");
     }
 
-    private void close() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void help() {
-        System.out.println("使用できるコマンド:");
+      System.out.println("使用できるコマンド:");
 	    System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
 	    System.out.println("\tlist - ログインしている人を表示する。");
 	    System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");

@@ -17,7 +17,8 @@ class ChatClient {
         CHATLOGIN,
         SEND,
         LOGOUT,
-        EXIT
+        EXIT,
+        LIST
     }
 
     private ChatClient() {
@@ -51,6 +52,10 @@ class ChatClient {
 
                 case EXIT:
                     break WHILE;
+
+                case LIST:
+                		sender.sendMessage(socket, "list");
+                		break;
             }
 
         }

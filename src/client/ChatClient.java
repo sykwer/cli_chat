@@ -14,9 +14,11 @@ class ChatClient {
     private Thread thread;
 
     private enum Command {
-        CHATLOGIN,
+        LOGIN,
+        LIST,
         SEND,
         LOGOUT,
+        HELP,
         EXIT
     }
 
@@ -31,14 +33,18 @@ class ChatClient {
             String[] args = scanner.nextLine().trim().split("\\s");
             Command command = Command.valueOf(args[0].toUpperCase());
             switch (command) {
-                case CHATLOGIN:
+                case LOGIN:
                     if (socket != null && socket.isConnected()) {
                         System.out.println("すでにログインしています。");
                     } else {
-                        String[] destination = args[2].split(":", 2);
-                        login(destination[0], Integer.parseInt(destination[1]), args[4]);
+                        String[] destination = args[1].split(":", 2);
+                        login(destination[0], Integer.parseInt(destination[1]), args[2]);
                     }
                     break;
+
+                case LIST:
+                	    sender.sendMessage(socket, "list");
+                	    break;
 
                 case SEND:
                     sendChat(args[1]);
@@ -49,8 +55,16 @@ class ChatClient {
                     close();
                     break;
 
+                case HELP:
+            	        help();
+            	        break;
+
                 case EXIT:
                     break WHILE;
+
+                default:
+                    System.out.println("そのコマンドはありません。(→'help')");
+                    break;
             }
 
         }
@@ -87,5 +101,14 @@ class ChatClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void help() {
+        System.out.println("使用できるコマンド:");
+	    System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
+	    System.out.println("\tlist - ログインしている人を表示する。");
+	    System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");
+	    System.out.println("\tlogout - ログアウトする。");
+	    System.out.println("\texit - プログラムを終了する。");
     }
 }

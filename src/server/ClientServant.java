@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.io.IOException;
 import java.net.Socket;
 import java.io.InputStream;
@@ -47,11 +48,11 @@ class ClientServant extends Thread {
                 String destUsername = null;
 
                 for (int i = 1; i < cmd.length; i++) {
-                    if (cmd[i] == "-repeat") {
+                    if (cmd[i].equals("-repeat")) {
                         repeatsNum = Integer.parseInt(cmd[i+1]);
                     }
 
-                    if (cmd[i] == "-to") {
+                    if (cmd[i].equals("-to")) {
                         destUsername = cmd[i+1];
                     }
                 }
@@ -97,7 +98,7 @@ class ClientServant extends Thread {
         StringBuilder sb = new StringBuilder();
 
         for (int i = 0; i < times; i++) {
-            sb.append(msg + "\n");
+            sb.append(username + ": " + msg + "\n");
         }
 
         sendStringToAllClients(sb.toString());
@@ -107,13 +108,14 @@ class ClientServant extends Thread {
         ClientServant dest = null;
 
         for (ClientServant cs : server.getClientServants()) {
-            if (cs.getUsername() == username) {
+            if (cs.getUsername().equals(username)) {
                 dest = cs;
             }
         }
 
         if (dest == null) {
-            sendString(username + "is not logged in");
+            sendString(username + " is not logged in");
+            return;
         }
 
         dest.sendString(String.format("(DM)%s -> %s: %s", getUsername(), dest.getUsername(), msg));

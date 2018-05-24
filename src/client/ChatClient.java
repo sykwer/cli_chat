@@ -34,7 +34,8 @@ class ChatClient {
                     if (socket != null && socket.isConnected()) {
                         System.out.println("すでにログインしています。");
                     } else {
-                        login(args[2].split(":")[0], Integer.parseInt(args[2].split(":")[1]), args[4]);
+                        String[] destination = args[2].split(":", 2);
+                        login(destination[0], Integer.parseInt(destination[1]), args[4]);
                     }
                     break;
 

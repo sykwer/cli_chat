@@ -50,10 +50,9 @@ class ChatClient {
                 case SEND:
                     sendChat(args[1]);
                     break;
-
+                    
                 case LOGOUT:
                     logout();
-                    close();
                     break;
 
                 case HELP:
@@ -61,6 +60,9 @@ class ChatClient {
             	        break;
 
                 case EXIT:
+                    if (!socket.isClosed()) {
+                        logout();
+                    }
                     break WHILE;
 
                 case FIRE:
@@ -100,16 +102,8 @@ class ChatClient {
         sender.sendMessage(socket, "logout");
     }
 
-    private void close() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private void help() {
-        System.out.println("使用できるコマンド:");
+      System.out.println("使用できるコマンド:");
 	    System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
 	    System.out.println("\tlist - ログインしている人を表示する。");
 	    System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");

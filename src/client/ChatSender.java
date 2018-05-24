@@ -18,10 +18,11 @@ class ChatSender {
 			writer = new PrintWriter(socket.getOutputStream());
 			writer.println(message);
 		} catch (IOException e) {
-			System.out.println("送信できませんでした。");
+			System.out.println("通信エラーです。");
+			e.printStackTrace();
 		} finally {
 			if (writer != null) {
-				writer.close();
+				writer.flush();
 			}
 		}
 	}

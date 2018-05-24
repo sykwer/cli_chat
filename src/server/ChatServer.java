@@ -103,4 +103,8 @@ public class ChatServer {
     public void removeClient(ClientServant cs) {
         clientServants.remove(cs);
     }
+
+    public ArrayList<ClientServant> getClientServants() {
+      return clientServants;
+    }
 }

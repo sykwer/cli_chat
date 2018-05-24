@@ -24,11 +24,5 @@ class ChatReceiver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        /*
-        * やりたいこと
-        * 1. socketを用いて、入力を受けとる
-        * 2. 入力を受け取ったら、それを標準出力で表示する
-        * */
     }
 }

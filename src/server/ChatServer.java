@@ -1,5 +1,5 @@
-import java.net.*;
 import java.util.*;
+import java.net.*;
 import java.io.*;
 
 public class ChatServer {
@@ -38,10 +38,64 @@ public class ChatServer {
         }
     }
 
-    public static void main(String[] args) throws IOException {
+    private static String inspectLanIpAddress() throws SocketException, IOException {
+        Long minLong = null;
+        String minIpAddress = null;
+
+        Enumeration<NetworkInterface> netItfs = NetworkInterface.getNetworkInterfaces();
+
+        if (netItfs == null) {
+            return null;
+        }
+
+        while (netItfs.hasMoreElements()) {
+            NetworkInterface ni = netItfs.nextElement();
+
+            if (ni.isLoopback() || !ni.isUp() || ni.isPointToPoint() || ni.isVirtual()) {
+                continue;
+            }
+
+            Enumeration<InetAddress> addrs = ni.getInetAddresses();
+
+            while (addrs.hasMoreElements()) {
+                InetAddress addr = addrs.nextElement();
+
+                if (addr instanceof Inet6Address || !addr.isReachable(1000)) {
+                    continue;
+                }
+
+                long ipLong = ipToLong(addr);
+                if (minLong == null || ipLong < minLong) {
+                    minLong = ipLong;
+                    minIpAddress = addr.getHostAddress();
+                }
+            }
+        }
+
+        return minIpAddress;
+    }
+
+    private static long ipToLong(InetAddress ip) {
+        byte[] octets = ip.getAddress();
+        long result = 0;
+
+        for (byte octet : octets) {
+            result <<= 8;
+            result |= octet & 0xff;
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
         int port = Integer.parseInt(args[0]);
-        System.out.println("My Address: " + InetAddress.getLocalHost().getHostAddress() + ":" + port);
-        ChatServer.getApp().start(port);
+
+        try {
+            System.out.println("My Address: " + inspectLanIpAddress() + ":" + port);
+            ChatServer.getApp().start(port);
+        } catch (IOException e) {
+            System.out.println("Error: " + e);
+        }
     }
 
     public void removeClient(ClientServant cs) {

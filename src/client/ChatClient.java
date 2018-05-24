@@ -105,10 +105,10 @@ class ChatClient {
 
     private void help() {
         System.out.println("使用できるコマンド:");
-	    System.out.println("chatlogin - ログインする。");
-	    System.out.println("list - ログインしている人を表示する。");
-	    System.out.println("send - メッセージを送る。");
-	    System.out.println("logout - ログアウトする。");
-	    System.out.println("exit - プログラムを終了する。");
+	    System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
+	    System.out.println("\tlist - ログインしている人を表示する。");
+	    System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");
+	    System.out.println("\tlogout - ログアウトする。");
+	    System.out.println("\texit - プログラムを終了する。");
     }
 }

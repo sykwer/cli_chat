@@ -90,6 +90,10 @@ public class ChatServer {
     }
 
     public static void main(String[] args) {
+        if (args.length != 1) {
+            throw new IllegalArgumentException("You need to type in port number for argument");
+        }
+
         int port = Integer.parseInt(args[0]);
 
         try {

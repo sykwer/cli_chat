@@ -71,12 +71,15 @@ class ClientServant extends Thread {
   private void broadcastMsg(String msg) {
     sendStringToAllClients(String.format("%s: %s", username, msg));
   }
+
   private void listClients() {
-    this.sendString("List of clients:");
+    StringBuilder sb = new StringBuilder();
+    sb.append("List of clients:\n");
     ArrayList<ClientServant> clients  = server.getClientServants();
     for (ClientServant client: clients) {
-      client.sendString(String.format("\t%s", client.getUsername()));
+      sb.append(String.format("\t%s\n", client.getUsername()));
     }
+    this.sendString(sb.toString());
   }
 
   private void sendStringToAllClients(String str) {
@@ -95,10 +98,6 @@ class ClientServant extends Thread {
     } catch (IOException e) {
       e.printStackTrace();
     }
-  }
-
-  public Socket getSocket() {
-    return clientSocket;
   }
 
   public String getUsername() {

@@ -19,7 +19,8 @@ class ChatClient {
         SEND,
         LOGOUT,
         HELP,
-        EXIT
+        EXIT,
+        FIRE
     }
 
     private ChatClient() {
@@ -61,6 +62,10 @@ class ChatClient {
 
                 case EXIT:
                     break WHILE;
+
+                case FIRE:
+               	    sender.sendMessage(socket, "fire");
+            	        break;
 
                 default:
                     System.out.println("そのコマンドはありません。(→'help')");

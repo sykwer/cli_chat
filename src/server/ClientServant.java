@@ -69,6 +69,12 @@ class ClientServant extends Thread {
             case "list":
                 listClients();
                 break;
+            case "fire":
+                fire();
+                break;
+            case "sushi":
+                sushi();
+                break;
             default:
 
         }
@@ -105,6 +111,26 @@ class ClientServant extends Thread {
         sendStringToAllClients(sb.toString());
     }
 
+    private void fire() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            sb.append("🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥\n");
+        }
+
+        sendStringToAllClients(sb.toString());
+    }
+
+    private void sushi() {
+        StringBuilder sb = new StringBuilder();
+
+        for (int i = 0; i < 10; i++) {
+            sb.append("🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣 🍣\n");
+        }
+
+        sendStringToAllClients(sb.toString());
+    }
+
     private void directMsg(String msg, String username) {
         ClientServant dest = null;
 
@@ -119,7 +145,9 @@ class ClientServant extends Thread {
             return;
         }
 
-        dest.sendString(String.format("(DM)%s -> %s: %s", getUsername(), dest.getUsername(), msg));
+        String result = String.format("(DM)%s -> %s: %s", getUsername(), dest.getUsername(), msg);
+        dest.sendString(result);
+        sendString(result);
     }
 
     private void listClients() {

@@ -43,10 +43,9 @@ class ChatClient {
                 case SEND:
                     sendChat(args[1]);
                     break;
-
+                   
                 case LOGOUT:
                     logout();
-                    close();
                     break;
 
                 case EXIT:
@@ -80,11 +79,4 @@ class ChatClient {
         sender.sendMessage(socket, "logout");
     }
 
-    private void close() {
-        try {
-            socket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
 }

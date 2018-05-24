@@ -80,7 +80,7 @@ class ChatClient {
             thread = new Thread(() -> receiver.waiteForMessage(socket));
             thread.start();
         } catch (IOException e) {
-            System.out.println("\u001b[31m"+"ログインに失敗しました。");
+            System.out.println("\u001b[31m"+"ログインに失敗しました。"+"\u001b[0m");
             e.printStackTrace();
         }
 

@@ -81,7 +81,7 @@ class ClientServant extends Thread {
       OutputStream os = clientSocket.getOutputStream();
       PrintWriter writer = new PrintWriter(os);
       writer.println(str);
-      writer.close();
+      writer.flush();
     } catch (IOException e) {
       e.printStackTrace();
     }

@@ -14,7 +14,7 @@ class ChatClient {
     private Thread thread;
 
     private enum Command {
-        CHATLOGIN,
+        LOGIN,
         SEND,
         LOGOUT,
         EXIT
@@ -31,12 +31,12 @@ class ChatClient {
             String[] args = scanner.nextLine().trim().split("\\s");
             Command command = Command.valueOf(args[0].toUpperCase());
             switch (command) {
-                case CHATLOGIN:
+                case LOGIN:
                     if (socket != null && socket.isConnected()) {
                         System.out.println("すでにログインしています。");
                     } else {
-                        String[] destination = args[2].split(":", 2);
-                        login(destination[0], Integer.parseInt(destination[1]), args[4]);
+                        String[] destination = args[1].split(":", 2);
+                        login(destination[0], Integer.parseInt(destination[1]), args[2]);
                     }
                     break;
 

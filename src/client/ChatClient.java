@@ -15,8 +15,10 @@ class ChatClient {
 
     private enum Command {
         LOGIN,
+        LIST,
         SEND,
         LOGOUT,
+        HELP,
         EXIT
     }
 
@@ -40,6 +42,10 @@ class ChatClient {
                     }
                     break;
 
+                case LIST:
+                	    sender.sendMessage(socket, "list");
+                	    break;
+
                 case SEND:
                     sendChat(args[1]);
                     break;
@@ -49,8 +55,16 @@ class ChatClient {
                     close();
                     break;
 
+                case HELP:
+            	        help();
+            	        break;
+
                 case EXIT:
                     break WHILE;
+
+                default:
+                    System.out.println("そのコマンドはありません。(→'help')");
+                    break;
             }
 
         }
@@ -87,5 +101,14 @@ class ChatClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void help() {
+        System.out.println("使用できるコマンド:");
+	    System.out.println("chatlogin - ログインする。");
+	    System.out.println("list - ログインしている人を表示する。");
+	    System.out.println("send - メッセージを送る。");
+	    System.out.println("logout - ログアウトする。");
+	    System.out.println("exit - プログラムを終了する。");
     }
 }

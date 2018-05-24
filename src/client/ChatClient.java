@@ -10,6 +10,7 @@ class ChatClient {
 
     private Socket socket;
     private ChatSender sender = ChatSender.getSender();
+    private ChatReceiver receiver = ChatReceiver.getReceiver();
     private Thread thread;
 
     private enum Command {
@@ -62,9 +63,7 @@ class ChatClient {
     private void login(String host, int port, String userName) {
         try {
             connectServer(host, port);
-            thread = new Thread(
-                    // todo: implement
-            );
+            thread = new Thread(() -> receiver.waiteForMessage(socket));
             thread.start();
         } catch (IOException e) {
             e.printStackTrace();

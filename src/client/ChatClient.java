@@ -43,12 +43,15 @@ class ChatClient {
                 case SEND:
                     sendChat(args[1]);
                     break;
-                   
+                    
                 case LOGOUT:
                     logout();
                     break;
 
                 case EXIT:
+                    if (!socket.isClosed()) {
+                        logout();
+                    }
                     break WHILE;
             }
 

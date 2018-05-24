@@ -78,6 +78,7 @@ class ClientServant extends Thread {
         sendStringToAllClients(String.format("%s has entered this chat room.", username));
         isLoggedIn = true;
         this.username = username;
+        listClients();
     }
 
     private void logout() {
@@ -123,12 +124,14 @@ class ClientServant extends Thread {
 
     private void listClients() {
         StringBuilder sb = new StringBuilder();
-        sb.append("List of clients:\n");
-        ArrayList<ClientServant> clients = server.getClientServants();
-        for (ClientServant client : clients) {
-            sb.append(String.format("\t%s\n", client.getUsername()));
+        sb.append("----- Now logged in -----\n");
+
+        for (ClientServant client : server.getClientServants()) {
+            sb.append(String.format(" %s\n", client.getUsername()));
         }
-        this.sendString(sb.toString());
+
+        sb.append("-------------------------");
+        sendString(sb.toString());
     }
 
     private void sendStringToAllClients(String str) {

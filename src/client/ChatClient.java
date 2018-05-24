@@ -18,7 +18,8 @@ class ChatClient {
         SEND,
         LOGOUT,
         EXIT,
-        LIST
+        LIST,
+        HELP
     }
 
     private ChatClient() {
@@ -57,9 +58,12 @@ class ChatClient {
                 case EXIT:
                     break WHILE;
 
+                case HELP:
+                	    help();
+                	    break;
+
                 default:
-                    System.out.println("そのコマンドはありません。");
-                    System.out.println("'chatlogin','list','send','logout','exit' コマンドが使えます。");
+                    System.out.println("そのコマンドはありません。(→'help')");
                     break;
             }
 
@@ -96,5 +100,14 @@ class ChatClient {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    private void help() {
+        System.out.println("使用できるコマンド:");
+	    System.out.println("chatlogin - ログインする。");
+	    System.out.println("list - ログインしている人を表示する。");
+	    System.out.println("send - メッセージを送る。");
+	    System.out.println("logout - ログアウトする。");
+	    System.out.println("exit - 通信を切る。");
     }
 }

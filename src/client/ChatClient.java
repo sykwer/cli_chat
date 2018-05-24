@@ -15,11 +15,11 @@ class ChatClient {
 
     private enum Command {
         CHATLOGIN,
+        LIST,
         SEND,
         LOGOUT,
-        EXIT,
-        LIST,
-        HELP
+        HELP,
+        EXIT
     }
 
     private ChatClient() {
@@ -55,12 +55,12 @@ class ChatClient {
                     close();
                     break;
 
+                case HELP:
+            	        help();
+            	        break;
+
                 case EXIT:
                     break WHILE;
-
-                case HELP:
-                	    help();
-                	    break;
 
                 default:
                     System.out.println("そのコマンドはありません。(→'help')");
@@ -108,6 +108,6 @@ class ChatClient {
 	    System.out.println("list - ログインしている人を表示する。");
 	    System.out.println("send - メッセージを送る。");
 	    System.out.println("logout - ログアウトする。");
-	    System.out.println("exit - 通信を切る。");
+	    System.out.println("exit - プログラムを終了する。");
     }
 }

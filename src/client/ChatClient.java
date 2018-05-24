@@ -35,8 +35,8 @@ class ChatClient {
                     break;
 
                 case "list":
-                	    sender.sendMessage(socket, "list");
-                	    break;
+                    sender.sendMessage(socket, "list");
+                    break;
 
                 case "send":
                     sendChat(args[1]);
@@ -47,8 +47,8 @@ class ChatClient {
                     break;
 
                 case "help":
-            	        help();
-            	        break;
+                    help();
+                    break;
 
                 case "exit":
                     if (!socket.isClosed()) {
@@ -57,8 +57,8 @@ class ChatClient {
                     break WHILE;
 
                 case "fire":
-               	    sender.sendMessage(socket, "fire");
-            	        break;
+                    sender.sendMessage(socket, "fire");
+                    break;
 
                 default:
                     System.out.println("そのコマンドはありません。(→'help')");
@@ -79,7 +79,7 @@ class ChatClient {
             thread = new Thread(() -> receiver.waiteForMessage(socket));
             thread.start();
         } catch (IOException e) {
-            System.out.println("\u001b[31m"+"ログインに失敗しました。"+"\u001b[30m");
+            System.out.println("\u001b[31m" + "ログインに失敗しました。" + "\u001b[30m");
             e.printStackTrace();
         }
 
@@ -96,10 +96,10 @@ class ChatClient {
 
     private void help() {
         System.out.println("使用できるコマンド:");
-	    System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
-	    System.out.println("\tlist - ログインしている人を表示する。");
-	    System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");
-	    System.out.println("\tlogout - ログアウトする。");
-	    System.out.println("\texit - プログラムを終了する。");
+        System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
+        System.out.println("\tlist - ログインしている人を表示する。");
+        System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");
+        System.out.println("\tlogout - ログアウトする。");
+        System.out.println("\texit - プログラムを終了する。");
     }
 }

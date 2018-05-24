@@ -38,6 +38,8 @@ public class ChatServer {
         }
     }
 
+    // FIXME: Following method inspects broadest ip address that can be seen from host.
+    // To certainly find IP address that connects to LAN, you may have to check routing table...
     private static String inspectLanIpAddress() throws SocketException, IOException {
         Long minLong = null;
         String minIpAddress = null;

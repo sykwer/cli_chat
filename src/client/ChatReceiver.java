@@ -12,16 +12,18 @@ class ChatReceiver {
     }
 
     // TODO: 2018/05/13 実装
-    void waiteForMessage(Socket socket, String message){
-        InputStream input = socket.getInputStream();
-        InputStreamReader inputStreamReader = new InputStreamReader(input);
-        BufferedReader  bufferedReader = new BufferedReader(inputStreamReader);
-        while(!socket.isClosed()){
-            String line = bufferedReader.readLine();
-            System.out.println(line);
+    void waiteForMessage(Socket socket, String message) {
+        try {
+            InputStream input = socket.getInputStream();
+            InputStreamReader inputStreamReader = new InputStreamReader(input);
+            BufferedReader  bufferedReader = new BufferedReader(inputStreamReader);
+            while(!socket.isClosed()){
+                String line = bufferedReader.readLine();
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        
-
 
         /*
         * やりたいこと

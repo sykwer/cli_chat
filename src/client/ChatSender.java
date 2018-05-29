@@ -3,27 +3,27 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 class ChatSender {
-	private static ChatSender singleton = new ChatSender();
+    private static ChatSender singleton = new ChatSender();
 
-	private ChatSender() {
-	}
+    private ChatSender() {
+    }
 
-	static ChatSender getSender() {
-		return singleton;
-	}
+    static ChatSender getSender() {
+        return singleton;
+    }
 
-	void sendMessage(Socket socket, String message) {
-		PrintWriter writer = null;
-		try {
-			writer = new PrintWriter(socket.getOutputStream());
-			writer.println(message);
-		} catch (IOException e) {
-			System.out.println("\u001b[31m"+"メッセージの送信に失敗しました。"+"\u001b[30m");
-			e.printStackTrace();
-		} finally {
-			if (writer != null) {
-				writer.flush();
-			}
-		}
-	}
+    void sendMessage(Socket socket, String message) {
+        PrintWriter writer = null;
+        try {
+            writer = new PrintWriter(socket.getOutputStream());
+            writer.println(message);
+        } catch (IOException e) {
+            System.out.println(Colors.RED.getCode() + "メッセージの送信に失敗しました。" + Colors.DEFAULT.getCode());
+            e.printStackTrace();
+        } finally {
+            if (writer != null) {
+                writer.flush();
+            }
+        }
+    }
 }

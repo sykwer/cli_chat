@@ -109,7 +109,7 @@ class ChatClient {
             thread = new Thread(() -> receiver.waiteForMessage(socket));
             thread.start();
         } catch (IOException e) {
-            System.out.println("\u001b[31m" + "ログインに失敗しました。" + "\u001b[30m");
+            System.out.println(Colors.RED.getCode() + "ログインに失敗しました。" + Colors.DEFAULT.getCode());
             e.printStackTrace();
         }
 
@@ -132,7 +132,7 @@ class ChatClient {
             Thread.sleep(1000);
             socket.close();
         } catch (IOException | InterruptedException e) {
-            System.out.println("\u001b[31m" + "ログアウト後に通信エラーが発生しました。" + "\u001b[30m");
+            System.out.println(Colors.RED.getCode() + "ログアウト後に通信エラーが発生しました。" + Colors.DEFAULT.getCode());
             e.printStackTrace();
         }
     }

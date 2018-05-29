@@ -1,4 +1,7 @@
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
 class ChatReceiver {
@@ -15,15 +18,15 @@ class ChatReceiver {
         try {
             InputStream input = socket.getInputStream();
             InputStreamReader inputStreamReader = new InputStreamReader(input);
-            BufferedReader  bufferedReader = new BufferedReader(inputStreamReader);
-            while(!socket.isClosed()){
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            while (!socket.isClosed()) {
                 String line = bufferedReader.readLine();
-                if(line != null){
-                    System.out.println("\u001b[34m"+line+"\u001b[30m");
+                if (line != null) {
+                    System.out.println("\u001b[34m" + line + "\u001b[30m");
                 }
             }
         } catch (IOException e) {
-            System.out.println("\u001b[31m"+"メッセージの受け取りに失敗しました。"+"\u001b[30m");
+            System.out.println("\u001b[31m" + "メッセージの受け取りに失敗しました。" + "\u001b[30m");
             e.printStackTrace();
         }
     }

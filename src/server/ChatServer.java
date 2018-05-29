@@ -109,6 +109,6 @@ public class ChatServer {
     }
 
     public ArrayList<ClientServant> getClientServants() {
-      return clientServants;
+        return clientServants;
     }
 }

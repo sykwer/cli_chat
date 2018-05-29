@@ -82,7 +82,7 @@ class ChatClient {
     }
 
     private boolean beforeLogin(String command) {
-        return !command.equals("login") && !command.equals("help") &&
+        return !command.equals("login") && !command.equals("help") && !command.equals("exit") &&
                 (socket == null || socket.isClosed());
     }
 

@@ -43,19 +43,39 @@ class ClientServant extends Thread {
                 logout();
                 break;
             case "send":
-                String msg = cmd[cmd.length - 1];
+                cmd[0] = null;
+
                 Integer repeatsNum = null;
                 String destUsername = null;
 
                 for (int i = 1; i < cmd.length; i++) {
-                    if (cmd[i].equals("-repeat")) {
+                    if (cmd[i] != null && cmd[i].equals("-repeat")) {
                         repeatsNum = Integer.parseInt(cmd[i + 1]);
+
+                        cmd[i] = null;
+                        cmd[i + 1] = null;
                     }
 
-                    if (cmd[i].equals("-to")) {
+                    if (cmd[i] != null && cmd[i].equals("-to")) {
                         destUsername = cmd[i + 1];
+
+                        cmd[i] = null;
+                        cmd[i + 1] = null;
                     }
                 }
+
+                StringBuilder sb = new StringBuilder();
+
+                for (String str : cmd) {
+                    if (str == null) {
+                        continue;
+                    }
+
+                    sb.append(str);
+                    sb.append(" ");
+                }
+
+                String msg = sb.toString();
 
                 if (repeatsNum != null) {
                     broadcastRepeatedMsg(msg, repeatsNum);

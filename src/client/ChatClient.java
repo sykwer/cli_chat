@@ -5,6 +5,7 @@ import java.util.Scanner;
 class ChatClient {
     public static void main(String[] args) {
         ChatClient client = new ChatClient();
+        client.help();
         client.waitForCommands();
     }
 

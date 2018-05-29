@@ -5,6 +5,7 @@ import java.util.Scanner;
 class ChatClient {
     public static void main(String[] args) {
         ChatClient client = new ChatClient();
+        client.help();
         client.waitForCommands();
     }
 
@@ -24,7 +25,7 @@ class ChatClient {
             String[] args = scanner.nextLine().trim().split("\\s", 2);
             switch (args[0]) {
                 case "login":
-                    if (socket != null && socket.isConnected()) {
+                    if (socket != null && !socket.isClosed()) {
                         System.out.println("すでにログインしています。");
                     } else {
                         // nextLine example: "login 10.213.19.210:1111 Ken"
@@ -35,20 +36,22 @@ class ChatClient {
                     break;
 
                 case "list":
-                	    sender.sendMessage(socket, "list");
-                	    break;
+                    sender.sendMessage(socket, "list");
+                    break;
 
                 case "send":
                     sendChat(args[1]);
                     break;
 
                 case "logout":
-                    logout();
+                    if (!socket.isClosed()) {
+                        logout();
+                    }
                     break;
 
                 case "help":
-            	        help();
-            	        break;
+                    help();
+                    break;
 
                 case "exit":
                     if (!socket.isClosed()) {
@@ -57,8 +60,8 @@ class ChatClient {
                     break WHILE;
 
                 case "fire":
-               	    sender.sendMessage(socket, "fire");
-            	        break;
+                    sender.sendMessage(socket, "fire");
+                    break;
 
                 default:
                     System.out.println("そのコマンドはありません。(→'help')");
@@ -79,7 +82,7 @@ class ChatClient {
             thread = new Thread(() -> receiver.waiteForMessage(socket));
             thread.start();
         } catch (IOException e) {
-            System.out.println("\u001b[31m"+"ログインに失敗しました。"+"\u001b[30m");
+            System.out.println("\u001b[31m" + "ログインに失敗しました。" + "\u001b[30m");
             e.printStackTrace();
         }
 
@@ -92,14 +95,23 @@ class ChatClient {
 
     private void logout() {
         sender.sendMessage(socket, "logout");
+        try {
+            // Sleep current thread to close socket after reading logout message from server.
+            // This implementation should be changed.
+            Thread.sleep(1000);
+            socket.close();
+        } catch (IOException | InterruptedException e) {
+            System.out.println("\u001b[31m" + "ログアウト後に通信エラーが発生しました。" + "\u001b[30m");
+            e.printStackTrace();
+        }
     }
 
     private void help() {
         System.out.println("使用できるコマンド:");
-	    System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
-	    System.out.println("\tlist - ログインしている人を表示する。");
-	    System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");
-	    System.out.println("\tlogout - ログアウトする。");
-	    System.out.println("\texit - プログラムを終了する。");
+        System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
+        System.out.println("\tlist - ログインしている人を表示する。");
+        System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");
+        System.out.println("\tlogout - ログアウトする。");
+        System.out.println("\texit - プログラムを終了する。");
     }
 }

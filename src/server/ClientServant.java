@@ -49,11 +49,11 @@ class ClientServant extends Thread {
 
                 for (int i = 1; i < cmd.length; i++) {
                     if (cmd[i].equals("-repeat")) {
-                        repeatsNum = Integer.parseInt(cmd[i+1]);
+                        repeatsNum = Integer.parseInt(cmd[i + 1]);
                     }
 
                     if (cmd[i].equals("-to")) {
-                        destUsername = cmd[i+1];
+                        destUsername = cmd[i + 1];
                     }
                 }
 

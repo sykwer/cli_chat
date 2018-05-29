@@ -27,7 +27,7 @@ class ChatClient {
                 System.out.println("まずはログインしてください。\nlogin IPアドレス:ポート username");
                 continue;
             }
-            
+
             switch (args[0]) {
                 case "login":
                     if (socket != null && !socket.isClosed()) {
@@ -80,7 +80,7 @@ class ChatClient {
         }
         scanner.close();
     }
-    
+
     private boolean beforeLogin(String command) {
         return !command.equals("login") && !command.equals("help") &&
                 (socket == null || socket.isClosed());
@@ -94,11 +94,11 @@ class ChatClient {
         }
         return true;
     }
-    
+
     private void sendChat(String message) {
         sender.sendMessage(socket, String.format("send %s", message));
     }
-    
+
     private void sendFire() {
         sender.sendMessage(socket, "fire");
     }
@@ -109,7 +109,7 @@ class ChatClient {
             thread = new Thread(() -> receiver.waiteForMessage(socket));
             thread.start();
         } catch (IOException e) {
-            System.out.println(Colors.RED.getCode() + "ログインに失敗しました。" + Colors.DEFAULT.getCode());
+            System.out.println(Colors.RED + "ログインに失敗しました。" + Colors.DEFAULT);
             e.printStackTrace();
         }
 
@@ -119,7 +119,7 @@ class ChatClient {
     private void connectServer(String host, int port) throws IOException {
         socket = new Socket(host, port);
     }
-    
+
     private void showList() {
         sender.sendMessage(socket, "list");
     }
@@ -132,7 +132,7 @@ class ChatClient {
             Thread.sleep(1000);
             socket.close();
         } catch (IOException | InterruptedException e) {
-            System.out.println(Colors.RED.getCode() + "ログアウト後に通信エラーが発生しました。" + Colors.DEFAULT.getCode());
+            System.out.println(Colors.RED + "ログアウト後に通信エラーが発生しました。" + Colors.DEFAULT);
             e.printStackTrace();
         }
     }

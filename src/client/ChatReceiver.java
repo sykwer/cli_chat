@@ -22,11 +22,11 @@ class ChatReceiver {
             while (!socket.isClosed()) {
                 String line = bufferedReader.readLine();
                 if (line != null) {
-                    System.out.println(Colors.BLUE.getCode() + line + Colors.DEFAULT.getCode());
+                    System.out.println(Colors.BLUE + line + Colors.DEFAULT);
                 }
             }
         } catch (IOException e) {
-            System.out.println(Colors.RED.getCode() + "メッセージの受け取りに失敗しました。" + Colors.DEFAULT.getCode());
+            System.out.println(Colors.RED + "メッセージの受け取りに失敗しました。" + Colors.DEFAULT);
             e.printStackTrace();
         }
     }

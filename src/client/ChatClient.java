@@ -24,7 +24,7 @@ class ChatClient {
             String[] args = scanner.nextLine().trim().split("\\s", 2);
             switch (args[0]) {
                 case "login":
-                    if (socket != null && socket.isConnected()) {
+                    if (socket != null && !socket.isClosed()) {
                         System.out.println("すでにログインしています。");
                     } else {
                         // nextLine example: "login 10.213.19.210:1111 Ken"
@@ -43,7 +43,9 @@ class ChatClient {
                     break;
 
                 case "logout":
-                    logout();
+                    if (!socket.isClosed()) {
+                        logout();
+                    }
                     break;
 
                 case "help":
@@ -92,6 +94,15 @@ class ChatClient {
 
     private void logout() {
         sender.sendMessage(socket, "logout");
+        try {
+            // Sleep current thread to close socket after reading logout message from server.
+            // This implementation should be changed.
+            Thread.sleep(1000);
+            socket.close();
+        } catch (IOException | InterruptedException e) {
+            System.out.println("\u001b[31m" + "ログアウト後に通信エラーが発生しました。" + "\u001b[30m");
+            e.printStackTrace();
+        }
     }
 
     private void help() {

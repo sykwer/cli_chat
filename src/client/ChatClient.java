@@ -5,7 +5,7 @@ import java.util.Scanner;
 class ChatClient {
     public static void main(String[] args) {
         ChatClient client = new ChatClient();
-        client.help();
+        client.showHelp();
         client.waitForCommands();
     }
 
@@ -23,6 +23,11 @@ class ChatClient {
         WHILE:
         while (true) {
             String[] args = scanner.nextLine().trim().split("\\s", 2);
+            if (beforeLogin(args[0])) {
+                System.out.println("まずはログインしてください。\nlogin IPアドレス:ポート username");
+                continue;
+            }
+            
             switch (args[0]) {
                 case "login":
                     if (socket != null && !socket.isClosed()) {
@@ -36,11 +41,15 @@ class ChatClient {
                     break;
 
                 case "list":
-                    sender.sendMessage(socket, "list");
+                    showList();
                     break;
 
                 case "send":
-                    sendChat(args[1]);
+                    if (validateSendChat(args[1])) {
+                        sendChat(args[1]);
+                    } else {
+                        optionHelp();
+                    }
                     break;
 
                 case "logout":
@@ -50,7 +59,7 @@ class ChatClient {
                     break;
 
                 case "help":
-                    help();
+                    showHelp();
                     break;
 
                 case "exit":
@@ -60,7 +69,7 @@ class ChatClient {
                     break WHILE;
 
                 case "fire":
-                    sender.sendMessage(socket, "fire");
+                    sendFire();
                     break;
 
                 default:
@@ -71,9 +80,27 @@ class ChatClient {
         }
         scanner.close();
     }
+    
+    private boolean beforeLogin(String command) {
+        return !command.equals("login") && !command.equals("help") &&
+                (socket == null || socket.isClosed());
+    }
 
+    private boolean validateSendChat(String message) {
+        for (String s : message.split("\\s")) {
+            if (s.startsWith("-")) {
+                if (!s.equals("-to") && !s.equals("-repeat")) return false;
+            }
+        }
+        return true;
+    }
+    
     private void sendChat(String message) {
         sender.sendMessage(socket, String.format("send %s", message));
+    }
+    
+    private void sendFire() {
+        sender.sendMessage(socket, "fire");
     }
 
     private void login(String host, int port, String userName) {
@@ -92,6 +119,10 @@ class ChatClient {
     private void connectServer(String host, int port) throws IOException {
         socket = new Socket(host, port);
     }
+    
+    private void showList() {
+        sender.sendMessage(socket, "list");
+    }
 
     private void logout() {
         sender.sendMessage(socket, "logout");
@@ -106,12 +137,17 @@ class ChatClient {
         }
     }
 
-    private void help() {
+    private void showHelp() {
         System.out.println("使用できるコマンド:");
         System.out.println("\tlogin - ログインする。(login IPアドレス:ポート username)");
         System.out.println("\tlist - ログインしている人を表示する。");
-        System.out.println("\tsend - メッセージを送る。(send [-to username] メッセージ)");
+        System.out.println("\tsend - メッセージを送る。(send [-to username] [-repeat n] メッセージ)");
         System.out.println("\tlogout - ログアウトする。");
         System.out.println("\texit - プログラムを終了する。");
+        System.out.println("\tfire - 🔥");
+    }
+
+    private void optionHelp() {
+        System.out.println("有効なオプションは、 [-to username] または [-repeat n] です。\nもう一度送信してください。");
     }
 }

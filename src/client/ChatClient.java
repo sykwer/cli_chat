@@ -5,6 +5,8 @@ import java.util.Scanner;
 class ChatClient {
     public static void main(String[] args) {
         ChatClient client = new ChatClient();
+        ConsoleController.clearScreen();
+        
         client.showHelp();
         client.waitForCommands();
     }

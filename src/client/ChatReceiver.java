@@ -22,7 +22,7 @@ class ChatReceiver {
             while (!socket.isClosed()) {
                 String line = bufferedReader.readLine();
                 if (line != null) {
-                    System.out.println(Colors.BLUE + line + Colors.DEFAULT);
+                    System.out.println(Colors.GREEN + line + Colors.DEFAULT);
                 }
             }
         } catch (IOException e) {

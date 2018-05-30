@@ -73,6 +73,10 @@ class ChatClient {
                 case "fire":
                     sendFire();
                     break;
+                    
+                case "sushi":
+                    sendSushi();
+                    break;
 
                 default:
                     System.out.println("そのコマンドはありません。(→'help')");
@@ -103,6 +107,10 @@ class ChatClient {
 
     private void sendFire() {
         sender.sendMessage(socket, "fire");
+    }
+    
+    private void sendSushi(){
+        sender.sendMessage(socket, "sushi");
     }
 
     private void login(String host, int port, String userName) {
